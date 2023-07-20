@@ -1,0 +1,127 @@
+Ippokratis kotsanis AM: 131 - ASSIGNMENT 1 - Decentralized Technologies Course
+
+===========================================
+==== Details - how to run the scripts: ====
+===========================================
+
+1. open a new terminal windows and activate the python virtual environment.
+source Blockchain_env/bin/activate
+
+----------------------------------------------------------------------------
+2. Run command bitcoind -regtest to run the deamon.
+
+----------------------------------------------------------------------------
+3. Open another one new terminal window and run the below command to activate again the python virtual environment
+source Blockchain_env/bin/activate
+
+----------------------------------------------------------------------------
+4. Run script addrs.py to get the private key and create the P2KH address.
+python addrs.py
+
+The output will be:
+
+Private key WIF: 91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgwmaKkrx
+Public key: 0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798
+Address: mrCDrCybB6J1vRfbwM5hemdJz73FwDBC8r
+Hash160: 751e76e8199196d454941c45d1b3a323f1433bd6
+
+----------------------------------------------------------------------------
+5. Run script Script_1_BC.py , which is the first script that Assignment 1 requires.
+python Script_1_BC.py
+
+After running this command you have to insert:
+ - private key to create inside the script a new P2SH address - insert this: 91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgwmaKkrx
+ - epoch time - insert this: 1697958400
+ 
+After inserting these required inputs the output of the script will be the P2SH address:
+
+Enter private key WIF: 91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgwmaKkrx
+Enter epoch time(1697958400): 1697958400
+P2SH address: 2MyhXVXenTVDQzZyheBMqwhkx2ySb9La2Hh
+
+----------------------------------------------------------------------------
+6. Run the second script that Assignment 1 requires.
+python Script_2_BC.py
+
+After running this command you have to insert:
+ - private key to create inside the script a new P2SH address - insert this: 91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgwmaKkrx
+ 
+ !!Note 1: The P2SH address will be exactly the same with the output of the first script.
+ !!Note 2: The private key also will be used to create a new P2KH address to send the funds to with the same way as first script (addrs.py). The only difference is 
+ that secret_exponent = 2.
+ 
+ - epoch time - insert this: 1697958400
+
+!!Important Note: In order to be able to test the script that it works fine, we have to send some bitcoins from an address in our wallet to the P2SH address.
+To do this, please follow these steps:
+ 
+  1. Load your wallet:
+  bitcoin-cli loadwallet mynewwallet_BC
+  
+  2. Make sure that your wallet contains bitcoins:
+  bitcoin-cli listunspent
+  
+  3. Check all the addresses in your wallet, get one address that contains bitcoins to send to the P2SH address and another
+  one to send the bitcoins, Which P2SH address received to this P2KH address. 
+  bitcoin-cli -named listreceivedbyaddress include_empty=true
+  
+  4. Send to the P2SH address for example 13 bitcoins:
+  bitcoin-cli sendtoaddress "2MyhXVXenTVDQzZyheBMqwhkx2ySb9La2Hh" 13
+  
+  5. Generate block.
+  bitcoin-cli generatetoaddress 1 "bcrt1qypzxac6qpzk84ndz0vvtzpfc4r2ys5vj4x0xhf" (this is the P2KH address)
+  
+  6. Make another transaction to send some more bitcoins to the P2SH address.
+  bitcoin-cli sendtoaddress "2MyhXVXenTVDQzZyheBMqwhkx2ySb9La2Hh" 1
+  
+  7. Generate another block.
+  bitcoin-cli generatetoaddress 1 "bcrt1qypzxac6qpzk84ndz0vvtzpfc4r2ys5vj4x0xhf"
+  
+  8. NOW, we are ready to run the second script!
+  
+After inserting these required inputs the output of the script will be this one:
+
+==============================================================================
+Enter private key WIF: 91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgwmaKkrx
+Enter epoch time ( e.g. 1697958400) : 1697958400
+
+Estimated funds you have: 67.00000000 BTCs
+
+Enter BTCs to send to given P2KH address: 2
+Raw unsigned transaction:
+020000000421b68f1147fa8c3bb9d1f3335a08608a5ca0851942db6d944ed86a4a137abfd50000000000feffffff2260e3a0093b1f97e880e84d3bceb1743bf78372d8c88c455e25eeae9467eead0000000000feffffff53b5b646cfa0c8cca7ad1b49f543dfc108d42cd5cbdb8281f74888cf3db7add40000000000fefffffff83eefd5a3cb6ee71de098f12bbb161a69affd9eef56b076913993e5db9a00df0100000000feffffff010005cc0b000000001976a91406afd46bcdfd22ef94ac122aa11f241244a37ecc88ac00000000
+
+Raw signed transaction:
+020000000421b68f1147fa8c3bb9d1f3335a08608a5ca0851942db6d944ed86a4a137abfd5000000008b47304402206c2a003f592f62c858cd365de2fa7a79b48c8bda4ecf3b786eba6b47bc9d9d2002201416664c18d945c3df560816ec9d9621e6f51c8b0952a3c764130819eca7076401210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798200400ca3465b17576a914751e76e8199196d454941c45d1b3a323f1433bd688acfeffffff2260e3a0093b1f97e880e84d3bceb1743bf78372d8c88c455e25eeae9467eead000000008b473044022078af380ec0cf3462f4d2a97f9329e6b184812a72488a20385146672065279b69022071a668f6a57832947d00dfedbd3d65244b6d06545d569c891805180970c7055001210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798200400ca3465b17576a914751e76e8199196d454941c45d1b3a323f1433bd688acfeffffff53b5b646cfa0c8cca7ad1b49f543dfc108d42cd5cbdb8281f74888cf3db7add4000000008b473044022064fb8875c1c16afb30139478b8f161c967e27cb97cfdef834ed05d75dbf25691022032a78f1f07406671f637236983bcce6297ae5bf084e348381adabc2342221e8401210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798200400ca3465b17576a914751e76e8199196d454941c45d1b3a323f1433bd688acfefffffff83eefd5a3cb6ee71de098f12bbb161a69affd9eef56b076913993e5db9a00df010000008b47304402202ebaa98ccf4e25f6cacb0d8f2f2f01fcfd9d4570608f7527847dc77d1f6d72d40220071bd26a56816d6821378c63540838eedea33720d1e1bc6dab7377e9637adb6a01210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798200400ca3465b17576a914751e76e8199196d454941c45d1b3a323f1433bd688acfeffffff010005cc0b000000001976a91406afd46bcdfd22ef94ac122aa11f241244a37ecc88ac00000000
+
+Transaction id:
+3452bc1a19b8da9b9d457ad2738dd780904791146d82043af20440dd5abeeb87
+
+Transaction is invalid and was not added to the mempool.
+==============================================================================
+
+Comments: We can see that script is running successfuly, but there is a small problem regarding transaction validation and locktime .. !
+
+Also, there are many comments inside the two scripts in order to be able to understand the implementation of Assignment 1.
+
+
+==========================================
+===== Delivered files - Assignment 1 =====
+==========================================
+
+1. addrs.py
+2. Script_1_BC.py
+3. Script_2_BC.py
+4. .bitcoin (folder of my bitcoin to access bitcoin.config file and the regtest wallets)
+5. requirements.txt
+6. run_scripts_details.txt
+
+
+
+
+
+
+
+
+
+
